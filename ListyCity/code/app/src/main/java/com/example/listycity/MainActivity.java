@@ -2,6 +2,7 @@ package com.example.listycity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     EditText addCityName;
 
     Button confirm;
+    String selectedCity = null;
 
 
 
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         addCityButton = findViewById(R.id.add_city);
 
-
+        deleteCityButton = findViewById(R.id.delete_city);
         addCityName = findViewById(R.id.enter_city);
 
         confirm = findViewById(R.id.confirm);
@@ -67,6 +69,24 @@ public class MainActivity extends AppCompatActivity {
                 cityAdapter.notifyDataSetChanged();
                 addCityName.setVisibility(View.GONE);
                 confirm.setVisibility(View.GONE);
+            }
+        });
+
+        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedCity = (String) parent.getItemAtPosition(position);
+            }
+        });
+
+        deleteCityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedCity != null) {
+                    dataList.remove(selectedCity);
+                    cityAdapter.notifyDataSetChanged();
+                    selectedCity = null;
+                }
             }
         });
 
